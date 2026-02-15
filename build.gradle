@@ -1,0 +1,21 @@
+plugins {
+    id 'groovy-gradle-plugin'
+    id 'maven-publish'
+//    id 'java-gradle-plugin'
+}
+
+group = 'com.suriyaprakhash'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    // Spotless dependency for the plugin
+    implementation "com.diffplug.spotless:spotless-plugin-gradle:6.25.0"
+    // OWASP dependency check for the plugin
+    implementation "org.owasp:dependency-check-gradle:9.2.0"
+}
+

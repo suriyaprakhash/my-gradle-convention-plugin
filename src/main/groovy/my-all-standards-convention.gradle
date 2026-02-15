@@ -1,0 +1,6 @@
+plugins {
+    id 'my-spotless-convention'
+    id 'my-pmd-convention'
+    id 'my-custom-task-convention'
+    id 'my-owasp-convention'
+}

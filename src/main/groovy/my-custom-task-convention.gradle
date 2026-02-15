@@ -1,0 +1,9 @@
+tasks.register('suriya') {
+    group = "my-group"
+    description = "this is for running suriya's tasks"
+    print('hello world ')
+}
+
+tasks.named("build") {
+	finalizedBy("suriya")
+}

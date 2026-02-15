@@ -1,0 +1,29 @@
+plugins {
+    id 'com.diffplug.spotless'
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        googleJavaFormat()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+// Optional: Enforce by running before compilation
+afterEvaluate {
+    tasks.withType(JavaCompile) {
+        dependsOn 'spotlessApply'
+    }
+}
+
+
+tasks.withType(com.diffplug.gradle.spotless.SpotlessTask) {
+    group = 'my-group'
+}
+
+// Also re-group the main apply/check tasks
+tasks.named('spotlessApply') { group = 'my-group' }
+tasks.named('spotlessCheck') { group = 'my-group' }

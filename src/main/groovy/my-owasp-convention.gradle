@@ -1,0 +1,43 @@
+plugins {
+    id 'org.owasp.dependencycheck'
+}
+
+dependencyCheck {
+    // 1. Force the build to fail if high vulnerabilities are found (CVSS score > 7)
+    failBuildOnCVSS = 7.0f
+
+    // 2. Standard formats for reporting
+    formats = ['HTML', 'JSON']
+
+    // 3. Centralized suppression file (optional)
+    // If you have a global list of "false positives", point to it here
+    suppressionFile = "${rootProject.projectDir}/config/owasp/suppressions.xml"
+
+    nvd {
+        // Read the key from an environment variable named NVD_API_KEY
+        apiKey = System.getenv('NVD_API_KEY') ?: '8b41b8f8-7902-4caa-9dd6-c98a82394244'
+
+        // If the key is valid but you still get 403, increase the delay between calls
+        delay = 3500 // 3500ms is the recommended delay WITH a key
+    }
+}
+
+afterEvaluate {
+    // Enforce: Re-group the task
+    tasks.named('dependencyCheckAnalyze') {
+        group = 'my-group'
+        description = 'Scans dependencies for known vulnerabilities (CVEs)'
+    }
+
+    // Force strictness: Don't let consumers lower the failure threshold
+    if (dependencyCheck.failBuildOnCVSS > 7.0f) {
+        println "POLICY ENFORCEMENT: Resetting OWASP CVSS threshold to 7.0 for ${project.name}"
+        dependencyCheck.failBuildOnCVSS = 7.0f
+    }
+}
+
+// re-group this task
+tasks.named('dependencyCheckUpdate') {
+    group = 'my-group'
+    description = 'Updates the local OWASP CVE database.'
+}

@@ -1,0 +1,51 @@
+plugins {
+    id 'pmd'
+}
+
+def GLOBAL_MAX_FAILURES = 0 // Define your company standard here
+
+pmd {
+    consoleOutput = true
+    toolVersion = "7.0.0"
+    ignoreFailures = false // Fails the build if violations are found
+    maxFailures = GLOBAL_MAX_FAILURES
+
+    // Use built-in rule sets or point to a custom XML
+    ruleSets = [
+            "category/java/bestpractices.xml",
+            "category/java/errorprone.xml",
+            "category/java/codestyle.xml"
+    ]
+}
+
+tasks.withType(Pmd) {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+// Re-group all PMD analysis tasks (pmdMain, pmdTest, etc.)
+tasks.withType(Pmd) {
+    group = 'my-group'
+    description = "Run PMD analysis for ${name}"
+}
+
+afterEvaluate {
+    if (pmd.ignoreFailures) {
+        throw new GradleException(
+                "POLICY ENFORCEMENT: Project [${project.name}] is violating company policy. " +
+                        "You are not allowed to set pmd.ignoreFailures = true."
+        )
+    }
+
+    if (pmd.maxFailures.get() > GLOBAL_MAX_FAILURES) {
+//        println "POLICY ENFORCEMENT: Project ${project.name} tried to set maxFailures to ${pmd.maxFailures}. " +
+//                "Resetting to allowed maximum: ${GLOBAL_MAX_FAILURES}"
+//        pmd.maxFailures = GLOBAL_MAX_FAILURES
+        throw new GradleException(
+                "POLICY ENFORCEMENT: Project ${project.name} tried to set maxFailures to ${pmd.maxFailures}. " +
+               "Allowed maximum: ${GLOBAL_MAX_FAILURES}"
+        )
+    }
+}

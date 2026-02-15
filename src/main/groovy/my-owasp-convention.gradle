@@ -15,7 +15,7 @@ dependencyCheck {
 
     nvd {
         // Read the key from an environment variable named NVD_API_KEY
-        apiKey = System.getenv('NVD_API_KEY') ?: '8b41b8f8-7902-4caa-9dd6-c98a82394244'
+        apiKey = System.getenv('NVD_API_KEY') ?: ''
 
         // If the key is valid but you still get 403, increase the delay between calls
         delay = 3500 // 3500ms is the recommended delay WITH a key

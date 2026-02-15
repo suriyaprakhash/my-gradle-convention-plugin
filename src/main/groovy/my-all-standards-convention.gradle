@@ -3,4 +3,5 @@ plugins {
     id 'my-pmd-convention'
     id 'my-custom-task-convention'
     id 'my-owasp-convention'
+    id 'my-jacoco-convention'
 }

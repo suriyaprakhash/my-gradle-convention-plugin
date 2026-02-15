@@ -1,0 +1,51 @@
+plugins {
+    id 'jacoco'
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+// 1. Initialize the variable so it exists
+project.ext.jacocoExcludes = []
+
+// 2. Wrap everything in ONE afterEvaluate at the top level
+afterEvaluate {
+    def allExcludes = [
+            '**/config/**',
+            '**/*DTO*',
+            '**/*Application.class'
+    ] + project.jacocoExcludes
+
+    // Configure the Report
+    tasks.named('jacocoTestReport') {
+        group = 'my-group'
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: allExcludes)
+        }))
+    }
+
+    // Configure the Gate
+    tasks.named('jacocoTestCoverageVerification') {
+        group = 'my-group'
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: allExcludes)
+        }))
+
+        violationRules {
+            rule {
+                element = 'CLASS'
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.80
+                }
+            }
+        }
+    }
+
+    // Link to check
+    tasks.named('check') {
+        dependsOn 'jacocoTestReport', 'jacocoTestCoverageVerification'
+    }
+}

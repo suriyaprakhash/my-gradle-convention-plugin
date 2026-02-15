@@ -18,7 +18,7 @@ dependencyCheck {
         apiKey = System.getenv('NVD_API_KEY') ?: ''
 
         // If the key is valid but you still get 403, increase the delay between calls
-        delay = 3500 // 3500ms is the recommended delay WITH a key
+        delay = 10500 // 3500ms is the recommended delay WITH a key
     }
 }
 

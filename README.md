@@ -18,7 +18,7 @@ This will bring in all the conventions.
 
 ## Task
 
-The conventions are re-grouped under **my-group** so, you can execute them individually. 
+The conventions are re-grouped under **my-group** so, you can execute them individually.
 
 These task are wired as part of either build or test. Refer respective [plugin's groovy](/src/main/groovy) for more info.
 

@@ -13,11 +13,11 @@ spotless {
 }
 
 // Optional: Enforce by running before compilation
-afterEvaluate {
-    tasks.withType(JavaCompile) {
-        dependsOn 'spotlessApply'
-    }
-}
+//afterEvaluate {
+//    tasks.withType(JavaCompile) {
+//        dependsOn 'spotlessApply'
+//    }
+//}
 
 
 tasks.withType(com.diffplug.gradle.spotless.SpotlessTask) {

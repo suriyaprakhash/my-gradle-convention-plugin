@@ -7,3 +7,4 @@ tasks.register('suriya') {
 tasks.named("build") {
 	finalizedBy("suriya")
 }
+
